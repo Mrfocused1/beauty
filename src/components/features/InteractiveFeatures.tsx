@@ -260,7 +260,7 @@ export function InteractiveFeatures() {
               className="relative"
             >
               <div className="w-full h-96 rounded-2xl border border-gray-200 shadow-lg overflow-hidden relative">
-                {/* Beautiful Professional Background Gradients */}
+                {/* Beautiful Professional Background Gradients - No external images */}
                 <div className={`absolute inset-0 ${
                   currentUserType === 0
                     ? 'bg-gradient-to-br from-pink-200 via-rose-300 to-primary-400'
