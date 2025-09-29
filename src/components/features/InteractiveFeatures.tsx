@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { GraduationCap, Users, TrendingUp } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface UserType {
   id: number;
@@ -15,6 +16,8 @@ interface UserType {
   benefits: string[];
   ctaText: string;
   ctaLink: string;
+  image: string;
+  imageAlt: string;
 }
 
 const userTypes: UserType[] = [
@@ -31,7 +34,9 @@ const userTypes: UserType[] = [
       "Receive verified reviews and ratings"
     ],
     ctaText: "Start as Student",
-    ctaLink: "/onboarding/student"
+    ctaLink: "/onboarding/student",
+    image: "/student-treatment.jpg",
+    imageAlt: "Beauty therapy student providing professional facial treatment"
   },
   {
     id: 2,
@@ -46,7 +51,9 @@ const userTypes: UserType[] = [
       "Flexible booking options"
     ],
     ctaText: "Find Treatments",
-    ctaLink: "/onboarding/client"
+    ctaLink: "/onboarding/client",
+    image: "/happy-client.jpg",
+    imageAlt: "Happy client smiling in modern salon environment"
   },
   {
     id: 3,
@@ -61,7 +68,9 @@ const userTypes: UserType[] = [
       "Finance equipment for student startups"
     ],
     ctaText: "Explore Opportunities",
-    ctaLink: "/onboarding/investor"
+    ctaLink: "/onboarding/investor",
+    image: "/salon-owner.jpg",
+    imageAlt: "Professional salon owner in modern beauty salon setting"
   }
 ];
 
@@ -259,32 +268,47 @@ export function InteractiveFeatures() {
               transition={{ duration: 0.5, ease: "easeOut" }}
               className="relative"
             >
-              <div className="w-full h-96 bg-gradient-to-br from-primary-100 to-primary-200 rounded-2xl border border-gray-100 shadow-lg flex items-center justify-center">
-                <div className="text-center p-8">
-                  <div className="w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                    {(() => {
-                      const Icon = userTypes[currentUserType].icon;
-                      return <Icon size={32} className="text-white" />;
-                    })()}
+              <div className="w-full h-96 rounded-2xl border border-gray-200 shadow-lg overflow-hidden relative">
+                {/* Background Image */}
+                <Image
+                  src={userTypes[currentUserType].image}
+                  alt={userTypes[currentUserType].imageAlt}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-black/40" />
+
+                {/* Content */}
+                <div className="relative z-10 h-full flex items-end p-6">
+                  <div className="text-center w-full">
+                    <div className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4">
+                      {(() => {
+                        const Icon = userTypes[currentUserType].icon;
+                        return <Icon size={24} className="text-primary-600" />;
+                      })()}
+                    </div>
+                    <h3 className="text-xl font-semibold text-white mb-2">
+                      {userTypes[currentUserType].title}
+                    </h3>
+                    <p className="text-primary-200 font-medium mb-3">
+                      {userTypes[currentUserType].subtitle}
+                    </p>
+                    <p className="text-gray-200 text-sm mb-6">
+                      {userTypes[currentUserType].description}
+                    </p>
+                    <Button
+                      size="lg"
+                      asChild
+                      className="bg-white/90 backdrop-blur-sm hover:bg-white text-primary-600 hover:text-primary-700 font-semibold"
+                    >
+                      <Link href={userTypes[currentUserType].ctaLink}>
+                        {userTypes[currentUserType].ctaText}
+                      </Link>
+                    </Button>
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                    {userTypes[currentUserType].title}
-                  </h3>
-                  <p className="text-primary-600 font-medium mb-3">
-                    {userTypes[currentUserType].subtitle}
-                  </p>
-                  <p className="text-gray-600 text-sm mb-6">
-                    {userTypes[currentUserType].description}
-                  </p>
-                  <Button
-                    size="lg"
-                    asChild
-                    className="bg-primary-500 hover:bg-primary-600 text-white"
-                  >
-                    <Link href={userTypes[currentUserType].ctaLink}>
-                      {userTypes[currentUserType].ctaText}
-                    </Link>
-                  </Button>
                 </div>
               </div>
             </motion.div>
