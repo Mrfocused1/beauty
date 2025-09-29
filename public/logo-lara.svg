@@ -1,0 +1,10 @@
+<svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .main-text { font-family: 'Times New Roman', serif; font-weight: bold; font-size: 140px; fill: black; }
+      .sub-text { font-family: 'Arial', sans-serif; font-size: 18px; fill: black; letter-spacing: 2px; }
+    </style>
+  </defs>
+  <text x="400" y="180" text-anchor="middle" class="main-text">LARA</text>
+  <text x="400" y="140" text-anchor="middle" class="sub-text">BEAUT.COM</text>
+</svg>
