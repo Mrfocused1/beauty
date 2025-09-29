@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { GraduationCap, Users, TrendingUp } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 
 interface UserType {
   id: number;
@@ -16,8 +15,6 @@ interface UserType {
   benefits: string[];
   ctaText: string;
   ctaLink: string;
-  image: string;
-  imageAlt: string;
 }
 
 const userTypes: UserType[] = [
@@ -34,9 +31,7 @@ const userTypes: UserType[] = [
       "Receive verified reviews and ratings"
     ],
     ctaText: "Start as Student",
-    ctaLink: "/onboarding/student",
-    image: "https://images.unsplash.com/photo-1560472355-b33ff0c44a43?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2126&q=80",
-    imageAlt: "Beauty therapy student providing professional facial treatment"
+    ctaLink: "/onboarding/student"
   },
   {
     id: 2,
@@ -51,9 +46,7 @@ const userTypes: UserType[] = [
       "Flexible booking options"
     ],
     ctaText: "Find Treatments",
-    ctaLink: "/onboarding/client",
-    image: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-    imageAlt: "Happy client receiving professional beauty treatment"
+    ctaLink: "/onboarding/client"
   },
   {
     id: 3,
@@ -68,9 +61,7 @@ const userTypes: UserType[] = [
       "Finance equipment for student startups"
     ],
     ctaText: "Explore Opportunities",
-    ctaLink: "/onboarding/investor",
-    image: "https://images.unsplash.com/photo-1562788869-4ed32648eb72?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80",
-    imageAlt: "Professional salon owner in modern beauty business setting"
+    ctaLink: "/onboarding/investor"
   }
 ];
 
@@ -269,41 +260,46 @@ export function InteractiveFeatures() {
               className="relative"
             >
               <div className="w-full h-96 rounded-2xl border border-gray-200 shadow-lg overflow-hidden relative">
-                {/* Background Image */}
-                <Image
-                  src={userTypes[currentUserType].image}
-                  alt={userTypes[currentUserType].imageAlt}
-                  fill
-                  className="object-cover"
-                  priority
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
+                {/* Beautiful Professional Background Gradients */}
+                <div className={`absolute inset-0 ${
+                  currentUserType === 0
+                    ? 'bg-gradient-to-br from-pink-200 via-rose-300 to-primary-400'
+                    : currentUserType === 1
+                    ? 'bg-gradient-to-br from-blue-200 via-indigo-300 to-purple-400'
+                    : 'bg-gradient-to-br from-green-200 via-emerald-300 to-teal-400'
+                }`} />
 
-                {/* Overlay for better text readability */}
-                <div className="absolute inset-0 bg-black/50" />
+                {/* Subtle Texture Overlay for Realism */}
+                <div className="absolute inset-0 opacity-20">
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.3)_1px,transparent_1px)] bg-[length:40px_40px]" />
+                  <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,0.1)_25%,transparent_25%,transparent_75%,rgba(255,255,255,0.1)_75%)] bg-[length:20px_20px]" />
+                </div>
+
+                {/* Professional Atmosphere Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-white/10" />
 
                 {/* Content */}
                 <div className="relative z-10 h-full flex items-end p-6">
                   <div className="text-center w-full">
-                    <div className="w-12 h-12 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <div className="w-12 h-12 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg ring-1 ring-white/20">
                       {(() => {
                         const Icon = userTypes[currentUserType].icon;
                         return <Icon size={24} className="text-primary-600" />;
                       })()}
                     </div>
-                    <h3 className="text-xl font-semibold text-white mb-2">
+                    <h3 className="text-xl font-semibold text-white mb-2 drop-shadow-sm">
                       {userTypes[currentUserType].title}
                     </h3>
-                    <p className="text-primary-200 font-medium mb-3">
+                    <p className="text-primary-100 font-medium mb-3 drop-shadow-sm">
                       {userTypes[currentUserType].subtitle}
                     </p>
-                    <p className="text-gray-200 text-sm mb-6 leading-relaxed">
+                    <p className="text-gray-100 text-sm mb-6 leading-relaxed drop-shadow-sm">
                       {userTypes[currentUserType].description}
                     </p>
                     <Button
                       size="lg"
                       asChild
-                      className="bg-white/95 backdrop-blur-sm hover:bg-white text-primary-600 hover:text-primary-700 font-semibold shadow-lg transform hover:scale-105 transition-all duration-200"
+                      className="bg-white/95 backdrop-blur-sm hover:bg-white text-primary-600 hover:text-primary-700 font-semibold shadow-lg transform hover:scale-105 transition-all duration-200 ring-1 ring-white/20"
                     >
                       <Link href={userTypes[currentUserType].ctaLink}>
                         {userTypes[currentUserType].ctaText}
