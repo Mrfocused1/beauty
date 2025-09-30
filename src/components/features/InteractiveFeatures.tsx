@@ -70,25 +70,42 @@ export function InteractiveFeatures() {
   const [progress, setProgress] = useState(0);
   const userTypeRefs = useRef<(HTMLDivElement | null)[]>([]);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
+  // Detect mobile viewport
   useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Auto-rotation only on desktop
+  useEffect(() => {
+    if (isMobile) return; // Don't auto-rotate on mobile
+
     const interval = setInterval(() => {
       setProgress((prev) => (prev >= 100 ? 100 : prev + 1));
     }, 150);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [isMobile]);
 
   useEffect(() => {
+    if (isMobile) return; // Don't auto-advance on mobile
+
     if (progress >= 100) {
       setTimeout(() => {
         setCurrentUserType((prev) => (prev + 1) % userTypes.length);
         setProgress(0);
       }, 300);
     }
-  }, [progress]);
+  }, [progress, isMobile]);
 
+  // Remove horizontal scroll effect on mobile
   useEffect(() => {
+    if (isMobile) return; // Skip scroll effect on mobile
+
     const activeUserTypeElement = userTypeRefs.current[currentUserType];
     const container = containerRef.current;
 
@@ -103,7 +120,7 @@ export function InteractiveFeatures() {
         behavior: "smooth",
       });
     }
-  }, [currentUserType]);
+  }, [currentUserType, isMobile]);
 
   const handleUserTypeClick = (index: number) => {
     setCurrentUserType(index);
@@ -111,26 +128,29 @@ export function InteractiveFeatures() {
   };
 
   return (
-    <div className="min-h-screen py-16 px-4 bg-white">
+    <div className="min-h-screen py-12 sm:py-16 px-4 bg-white">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-16">
-          <span className="text-primary-500 font-semibold text-sm uppercase tracking-wider">
+        <div className="text-center mb-8 sm:mb-12 lg:mb-16 px-4 sm:px-0">
+          <span className="text-primary-500 font-semibold text-xs sm:text-sm uppercase tracking-wider">
             Join Our Platform
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-4 mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mt-3 sm:mt-4 mb-4 sm:mb-6">
             Choose Your Path
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
             Whether you're a student, client, or investor, we have something for you
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 lg:gap-16 gap-8 items-center">
-          {/* Left Side - User Types with Progress Lines */}
+        <div className="grid lg:grid-cols-2 lg:gap-16 gap-8 items-start lg:items-center">
+          {/* Left Side - User Types */}
           <div
             ref={containerRef}
-            className="lg:space-y-8 md:space-x-6 lg:space-x-0 overflow-x-auto overflow-hidden no-scrollbar lg:overflow-visible flex lg:flex lg:flex-col flex-row order-1 pb-4 scroll-smooth"
+            className={`
+              space-y-4 sm:space-y-6 lg:space-y-8
+              order-2 lg:order-1
+            `}
           >
             {userTypes.map((userType, index) => {
               const Icon = userType.icon;
@@ -142,106 +162,115 @@ export function InteractiveFeatures() {
                   ref={(el) => {
                     userTypeRefs.current[index] = el;
                   }}
-                  className="relative cursor-pointer flex-shrink-0"
+                  className="relative cursor-pointer"
                   onClick={() => handleUserTypeClick(index)}
                 >
-                  {/* User Type Content */}
+                  {/* User Type Card - Full width on mobile */}
                   <div
                     className={`
-                    flex lg:flex-row flex-col items-start space-x-4 p-6 max-w-sm md:max-w-sm lg:max-w-2xl transition-all duration-300
-                    ${
-                      isActive
-                        ? "bg-white shadow-xl rounded-xl border border-gray-200"
-                        : ""
-                    }
-                  `}
-                  >
-                    {/* Icon */}
-                    <div
-                      className={`
-                      p-3 hidden md:block rounded-full transition-all duration-300
+                      flex flex-col sm:flex-row items-start p-4 sm:p-6
+                      transition-all duration-300 rounded-xl
                       ${
                         isActive
-                          ? "bg-primary-500 text-white"
-                          : "bg-primary-100 text-primary-500"
+                          ? "bg-white shadow-xl border-2 border-primary-200 scale-[1.02]"
+                          : "bg-gray-50 border-2 border-transparent hover:border-gray-200"
                       }
                     `}
-                    >
-                      <Icon size={24} />
+                  >
+                    {/* Icon & Title Row */}
+                    <div className="flex items-start gap-3 sm:gap-4 w-full sm:w-auto mb-3 sm:mb-0">
+                      <div
+                        className={`
+                          p-2.5 sm:p-3 rounded-full transition-all duration-300 flex-shrink-0 min-w-[44px] min-h-[44px] flex items-center justify-center
+                          ${
+                            isActive
+                              ? "bg-primary-500 text-white shadow-lg"
+                              : "bg-primary-100 text-primary-600"
+                          }
+                        `}
+                      >
+                        <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
+                      </div>
+
+                      <div className="flex-1">
+                        <h3
+                          className={`
+                            text-lg sm:text-xl font-bold mb-1 transition-colors duration-300
+                            ${isActive ? "text-gray-900" : "text-gray-700"}
+                          `}
+                        >
+                          {userType.title}
+                        </h3>
+                        <p
+                          className={`
+                            text-sm sm:text-base font-semibold mb-2 transition-colors duration-300
+                            ${isActive ? "text-primary-600" : "text-primary-500"}
+                          `}
+                        >
+                          {userType.subtitle}
+                        </p>
+                      </div>
                     </div>
 
-                    {/* Content */}
-                    <div className="flex-1">
-                      <h3
-                        className={`
-                        text-lg md:mt-4 lg:mt-0 font-semibold mb-1 transition-colors duration-300
-                        ${
-                          isActive
-                            ? "text-gray-900"
-                            : "text-gray-700"
-                        }
-                      `}
-                      >
-                        {userType.title}
-                      </h3>
+                    {/* Description - Always visible on mobile for scannability */}
+                    <div className="w-full sm:flex-1 sm:ml-4">
                       <p
                         className={`
-                        text-sm font-medium mb-2 transition-colors duration-300
-                        ${
-                          isActive
-                            ? "text-primary-600"
-                            : "text-primary-500"
-                        }
-                      `}
-                      >
-                        {userType.subtitle}
-                      </p>
-                      <p
-                        className={`
-                        transition-colors duration-300 text-sm mb-3
-                        ${
-                          isActive
-                            ? "text-gray-600"
-                            : "text-gray-500"
-                        }
-                      `}
+                          text-sm leading-relaxed mb-3
+                          ${isActive ? "text-gray-700" : "text-gray-600"}
+                        `}
                       >
                         {userType.description}
                       </p>
 
-                      {/* Benefits */}
+                      {/* Benefits - Show on active */}
                       {isActive && (
-                        <ul className="text-xs text-gray-500 space-y-1 mb-4">
+                        <ul className="text-xs sm:text-sm text-gray-600 space-y-1.5 mb-4 pl-1">
                           {userType.benefits.map((benefit, i) => (
-                            <li key={i} className="flex items-center">
-                              <div className="w-1 h-1 bg-primary-500 rounded-full mr-2"></div>
-                              {benefit}
+                            <li key={i} className="flex items-start gap-2">
+                              <div className="w-1.5 h-1.5 bg-primary-500 rounded-full mt-1.5 flex-shrink-0"></div>
+                              <span>{benefit}</span>
                             </li>
                           ))}
                         </ul>
                       )}
 
-                      {/* CTA Button */}
-                      {isActive && (
-                        <Button
-                          size="sm"
-                          asChild
-                          className="bg-primary-500 hover:bg-primary-600 text-white"
-                        >
-                          <Link href={userType.ctaLink}>{userType.ctaText}</Link>
-                        </Button>
-                      )}
+                      {/* CTA Button - Always visible on mobile, prominent when active */}
+                      <Button
+                        size={isActive ? "default" : "sm"}
+                        asChild
+                        className={`
+                          w-full sm:w-auto
+                          ${
+                            isActive
+                              ? "bg-primary-500 hover:bg-primary-600 text-white shadow-md"
+                              : "bg-primary-100 hover:bg-primary-200 text-primary-700 border border-primary-200"
+                          }
+                        `}
+                      >
+                        <Link href={userType.ctaLink}>
+                          {userType.ctaText}
+                          {isActive && (
+                            <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                          )}
+                        </Link>
+                      </Button>
 
-                      <div className="mt-4 bg-gray-100 rounded-sm h-1 overflow-hidden">
-                        {isActive && (
-                          <motion.div
-                            className="h-full bg-gradient-to-r from-primary-500 to-primary-600"
-                            initial={{ width: 0 }}
-                            animate={{ width: `${progress}%` }}
-                            transition={{ duration: 0.1, ease: "linear" }}
-                          />
-                        )}
-                      </div>
+                      {/* Progress bar - Desktop only for auto-rotation */}
+                      {!isMobile && (
+                        <div className="mt-4 bg-gray-200 rounded-full h-1 overflow-hidden">
+                          {isActive && (
+                            <motion.div
+                              className="h-full bg-gradient-to-r from-primary-500 to-primary-600"
+                              initial={{ width: 0 }}
+                              animate={{ width: `${progress}%` }}
+                              transition={{ duration: 0.1, ease: "linear" }}
+                            />
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -249,15 +278,15 @@ export function InteractiveFeatures() {
             })}
           </div>
 
-          {/* Right Side - User Type Display */}
-          <div className="relative order-1 max-w-lg mx-auto lg:order-2">
+          {/* Right Side - Visual Display (Desktop Only) */}
+          <div className="relative order-1 lg:order-2 hidden lg:block">
             <motion.div
               key={currentUserType}
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -50 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
-              className="relative"
+              className="relative max-w-lg mx-auto"
             >
               <div className="w-full h-96 rounded-2xl border border-gray-200 shadow-lg overflow-hidden relative">
                 {/* Beautiful Professional Background Gradients - No external images */}
@@ -284,20 +313,20 @@ export function InteractiveFeatures() {
                     <div className="w-12 h-12 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg ring-1 ring-white/20">
                       {(() => {
                         const Icon = userTypes[currentUserType].icon;
-                        return <Icon size={24} className="text-primary-600" />;
+                        return <Icon className="w-6 h-6 text-primary-600" />;
                       })()}
                     </div>
                     <h3 className="text-xl font-semibold text-white mb-2 drop-shadow-sm">
                       {userTypes[currentUserType].title}
                     </h3>
-                    <p className="text-primary-100 font-medium mb-3 drop-shadow-sm">
+                    <p className="text-base text-primary-100 font-medium mb-3 drop-shadow-sm">
                       {userTypes[currentUserType].subtitle}
                     </p>
                     <p className="text-gray-100 text-sm mb-6 leading-relaxed drop-shadow-sm">
                       {userTypes[currentUserType].description}
                     </p>
                     <Button
-                      size="lg"
+                      size="sm"
                       asChild
                       className="bg-white/95 backdrop-blur-sm hover:bg-white text-primary-600 hover:text-primary-700 font-semibold shadow-lg transform hover:scale-105 transition-all duration-200 ring-1 ring-white/20"
                     >

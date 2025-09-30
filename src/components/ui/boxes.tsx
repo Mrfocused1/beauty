@@ -12,53 +12,68 @@ export const BackgroundBeamsWithCollision = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const parentRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect mobile viewport and motion preference
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const shouldShowBeams = !isMobile &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const beams = [
     {
-      initialX: 10,
-      translateX: 10,
+      initialX: "5%",
+      translateX: "5%",
       duration: 7,
       repeatDelay: 3,
       delay: 2,
     },
     {
-      initialX: 600,
-      translateX: 600,
+      initialX: "25%",
+      translateX: "25%",
       duration: 3,
       repeatDelay: 3,
       delay: 4,
     },
     {
-      initialX: 100,
-      translateX: 100,
+      initialX: "15%",
+      translateX: "15%",
       duration: 7,
       repeatDelay: 7,
       className: "h-6",
     },
     {
-      initialX: 400,
-      translateX: 400,
+      initialX: "45%",
+      translateX: "45%",
       duration: 5,
       repeatDelay: 14,
       delay: 4,
     },
     {
-      initialX: 800,
-      translateX: 800,
+      initialX: "65%",
+      translateX: "65%",
       duration: 11,
       repeatDelay: 2,
       className: "h-20",
     },
     {
-      initialX: 1000,
-      translateX: 1000,
+      initialX: "80%",
+      translateX: "80%",
       duration: 4,
       repeatDelay: 2,
       className: "h-12",
     },
     {
-      initialX: 1200,
-      translateX: 1200,
+      initialX: "90%",
+      translateX: "90%",
       duration: 6,
       repeatDelay: 4,
       delay: 2,
@@ -70,13 +85,17 @@ export const BackgroundBeamsWithCollision = ({
     <div
       ref={parentRef}
       className={cn(
-        "h-96 md:h-[40rem] bg-white relative flex items-center w-full justify-center overflow-hidden",
+        "h-96 md:h-[40rem] relative flex items-center w-full justify-center overflow-hidden",
+        // Replace animated background with subtle gradient on mobile
+        isMobile
+          ? "bg-gradient-to-b from-primary-50/30 via-white to-primary-50/20"
+          : "bg-white",
         className
       )}
     >
-      {beams.map((beam) => (
+      {shouldShowBeams && beams.map((beam, index) => (
         <CollisionMechanism
-          key={beam.initialX + "beam-idx"}
+          key={`beam-${index}-${beam.initialX}`}
           beamOptions={beam}
           containerRef={containerRef}
           parentRef={parentRef}
@@ -84,14 +103,18 @@ export const BackgroundBeamsWithCollision = ({
       ))}
 
       {children}
-      <div
-        ref={containerRef}
-        className="absolute bottom-0 bg-neutral-100 w-full inset-x-0 pointer-events-none"
-        style={{
-          boxShadow:
-            "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset",
-        }}
-      ></div>
+
+      {/* Only show collision container on desktop */}
+      {!isMobile && (
+        <div
+          ref={containerRef}
+          className="absolute bottom-0 bg-neutral-100 w-full inset-x-0 pointer-events-none"
+          style={{
+            boxShadow:
+              "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset",
+          }}
+        ></div>
+      )}
     </div>
   );
 };
@@ -102,10 +125,10 @@ const CollisionMechanism = React.forwardRef<
     containerRef: React.RefObject<HTMLDivElement>;
     parentRef: React.RefObject<HTMLDivElement>;
     beamOptions?: {
-      initialX?: number;
-      translateX?: number;
-      initialY?: number;
-      translateY?: number;
+      initialX?: number | string;
+      translateX?: number | string;
+      initialY?: number | string;
+      translateY?: number | string;
       rotate?: number;
       className?: string;
       duration?: number;
@@ -180,13 +203,13 @@ const CollisionMechanism = React.forwardRef<
         animate="animate"
         initial={{
           translateY: beamOptions.initialY || "-200px",
-          translateX: beamOptions.initialX || "0px",
+          translateX: typeof beamOptions.initialX === 'string' ? beamOptions.initialX : `${beamOptions.initialX || 0}px`,
           rotate: beamOptions.rotate || 0,
         }}
         variants={{
           animate: {
             translateY: beamOptions.translateY || "1800px",
-            translateX: beamOptions.translateX || "0px",
+            translateX: typeof beamOptions.translateX === 'string' ? beamOptions.translateX : `${beamOptions.translateX || 0}px`,
             rotate: beamOptions.rotate || 0,
           },
         }}

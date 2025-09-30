@@ -128,17 +128,17 @@ export function Footer() {
           <p className="text-gray-400 text-sm mb-4 md:mb-0">
             © 2025 Larabeaut. All rights reserved.
           </p>
-          <div className="flex space-x-6 text-sm">
-            <Link href="/privacy" className="text-gray-400 hover:text-white transition-colors">
+          <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm justify-center md:justify-end">
+            <Link href="/privacy" className="text-gray-400 hover:text-white transition-colors whitespace-nowrap">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="text-gray-400 hover:text-white transition-colors">
+            <Link href="/terms" className="text-gray-400 hover:text-white transition-colors whitespace-nowrap">
               Terms of Service
             </Link>
-            <Link href="/cookies" className="text-gray-400 hover:text-white transition-colors">
+            <Link href="/cookies" className="text-gray-400 hover:text-white transition-colors whitespace-nowrap">
               Cookie Policy
             </Link>
-            <Link href="/contact" className="text-gray-400 hover:text-white transition-colors">
+            <Link href="/contact" className="text-gray-400 hover:text-white transition-colors whitespace-nowrap">
               Contact
             </Link>
           </div>
