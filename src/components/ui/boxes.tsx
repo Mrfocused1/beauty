@@ -13,20 +13,23 @@ export const BackgroundBeamsWithCollision = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const parentRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [shouldShowBeams, setShouldShowBeams] = useState(false);
 
   // Detect mobile viewport and motion preference
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+
+      // Check for reduced motion preference
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      setShouldShowBeams(!mobile && !prefersReducedMotion);
     };
 
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
-
-  const shouldShowBeams = !isMobile &&
-    !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const beams = [
     {
