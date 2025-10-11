@@ -1,28 +1,38 @@
+'use client'
+
 import Link from 'next/link'
 import Image from 'next/image'
+import { useState } from 'react'
+import { ChevronDown } from 'lucide-react'
 
 export function Footer() {
+  const [openSection, setOpenSection] = useState<string | null>(null)
+
+  const toggleSection = (section: string) => {
+    setOpenSection(openSection === section ? null : section)
+  }
+
   return (
     <footer className="bg-gray-900 text-white">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+      <div className="container mx-auto px-4 py-6 md:py-10 lg:py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6 lg:gap-8">
           {/* Brand */}
           <div className="col-span-1 md:col-span-2 lg:col-span-2">
-            <Link href="/" className="flex items-center mb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-primary-400 to-primary-600 rounded-lg flex items-center justify-center shadow-md">
-                  <span className="text-white font-bold text-xl">H</span>
+            <Link href="/" className="flex items-center mb-3 md:mb-4">
+              <div className="flex items-center gap-2 md:gap-3">
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-primary-400 to-primary-600 rounded-lg flex items-center justify-center shadow-md">
+                  <span className="text-white font-bold text-lg md:text-xl">H</span>
                 </div>
                 <div className="text-white">
-                  <div className="text-xl font-bold">The Hair & Beauty Hub</div>
-                  <div className="text-sm text-gray-400">Next-Gen Beauty Starts Here</div>
+                  <div className="text-base md:text-xl font-bold">The Hair & Beauty Hub</div>
+                  <div className="text-xs md:text-sm text-gray-400">Next-Gen Beauty Starts Here</div>
                 </div>
               </div>
             </Link>
-            <p className="text-gray-400 mb-4 max-w-md">
-              Connecting the next generation of beauty professionals to education, mentorship, and career opportunities. Empowering stylists and entrepreneurs to succeed.
+            <p className="text-gray-400 text-sm mb-3 md:mb-4 max-w-md hidden md:block">
+              Connecting the next generation of beauty professionals to education, mentorship, and career opportunities.
             </p>
-            <div className="mb-4">
+            <div className="mb-3 md:mb-4 hidden md:block">
               <p className="text-gray-400 text-sm mb-1">
                 <span className="font-semibold text-white">Email:</span> info@thehairandbeautyhub.com
               </p>
@@ -30,7 +40,7 @@ export function Footer() {
                 <span className="font-semibold text-white">Phone:</span> +44 XXX XXX XXXX
               </p>
             </div>
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 justify-start md:justify-start">
               <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                 <span className="sr-only">Instagram</span>
                 <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
@@ -58,81 +68,108 @@ export function Footer() {
             </div>
           </div>
 
-          {/* For Students */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">For Students</h3>
-            <ul className="space-y-2">
+          {/* For Students - Mobile Accordion / Desktop Normal */}
+          <div className="md:block">
+            <button
+              onClick={() => toggleSection('students')}
+              className="flex items-center justify-between w-full md:cursor-default py-1.5 md:py-0 min-h-[44px] md:min-h-0"
+              aria-expanded={openSection === 'students'}
+            >
+              <h3 className="text-sm md:text-base lg:text-lg font-semibold">For Students</h3>
+              <ChevronDown
+                className={`w-4 h-4 md:w-5 md:h-5 transition-transform md:hidden ${openSection === 'students' ? 'rotate-180' : ''}`}
+              />
+            </button>
+            <ul className={`space-y-1 md:space-y-2 mt-2 md:mt-4 overflow-hidden transition-all duration-300 ${openSection === 'students' ? 'max-h-48 md:max-h-none' : 'max-h-0 md:max-h-none'}`}>
               <li>
-                <Link href="/onboarding/student" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="/onboarding/student" className="text-sm md:text-base text-gray-400 hover:text-white transition-colors block py-1 min-h-[44px] md:min-h-0 flex items-center">
                   Join as Student
                 </Link>
               </li>
               <li>
-                <Link href="/directory/clients" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="/directory/clients" className="text-sm md:text-base text-gray-400 hover:text-white transition-colors block py-1 min-h-[44px] md:min-h-0 flex items-center">
                   View Client Requests
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="#" className="text-sm md:text-base text-gray-400 hover:text-white transition-colors block py-1 min-h-[44px] md:min-h-0 flex items-center">
                   Build Portfolio
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="#" className="text-sm md:text-base text-gray-400 hover:text-white transition-colors block py-1 min-h-[44px] md:min-h-0 flex items-center">
                   Earn While Learning
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* For Clients */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">For Clients</h3>
-            <ul className="space-y-2">
+          {/* For Clients - Mobile Accordion / Desktop Normal */}
+          <div className="md:block">
+            <button
+              onClick={() => toggleSection('clients')}
+              className="flex items-center justify-between w-full md:cursor-default py-1.5 md:py-0 min-h-[44px] md:min-h-0"
+              aria-expanded={openSection === 'clients'}
+            >
+              <h3 className="text-sm md:text-base lg:text-lg font-semibold">For Clients</h3>
+              <ChevronDown
+                className={`w-4 h-4 md:w-5 md:h-5 transition-transform md:hidden ${openSection === 'clients' ? 'rotate-180' : ''}`}
+              />
+            </button>
+            <ul className={`space-y-1 md:space-y-2 mt-2 md:mt-4 overflow-hidden transition-all duration-300 ${openSection === 'clients' ? 'max-h-48 md:max-h-none' : 'max-h-0 md:max-h-none'}`}>
               <li>
-                <Link href="/directory/students" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="/directory/students" className="text-sm md:text-base text-gray-400 hover:text-white transition-colors block py-1 min-h-[44px] md:min-h-0 flex items-center">
                   Browse Students
                 </Link>
               </li>
               <li>
-                <Link href="/onboarding/client" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="/onboarding/client" className="text-sm md:text-base text-gray-400 hover:text-white transition-colors block py-1 min-h-[44px] md:min-h-0 flex items-center">
                   Book Treatments
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="#" className="text-sm md:text-base text-gray-400 hover:text-white transition-colors block py-1 min-h-[44px] md:min-h-0 flex items-center">
                   Save 50-70%
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="#" className="text-sm md:text-base text-gray-400 hover:text-white transition-colors block py-1 min-h-[44px] md:min-h-0 flex items-center">
                   Safety & Quality
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* For Investors */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">For Investors</h3>
-            <ul className="space-y-2">
+          {/* For Investors - Mobile Accordion / Desktop Normal */}
+          <div className="md:block">
+            <button
+              onClick={() => toggleSection('investors')}
+              className="flex items-center justify-between w-full md:cursor-default py-1.5 md:py-0 min-h-[44px] md:min-h-0"
+              aria-expanded={openSection === 'investors'}
+            >
+              <h3 className="text-sm md:text-base lg:text-lg font-semibold">For Investors</h3>
+              <ChevronDown
+                className={`w-4 h-4 md:w-5 md:h-5 transition-transform md:hidden ${openSection === 'investors' ? 'rotate-180' : ''}`}
+              />
+            </button>
+            <ul className={`space-y-1 md:space-y-2 mt-2 md:mt-4 overflow-hidden transition-all duration-300 ${openSection === 'investors' ? 'max-h-48 md:max-h-none' : 'max-h-0 md:max-h-none'}`}>
               <li>
-                <Link href="/directory/investors" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="/directory/investors" className="text-sm md:text-base text-gray-400 hover:text-white transition-colors block py-1 min-h-[44px] md:min-h-0 flex items-center">
                   View Opportunities
                 </Link>
               </li>
               <li>
-                <Link href="/onboarding/investor" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="/onboarding/investor" className="text-sm md:text-base text-gray-400 hover:text-white transition-colors block py-1 min-h-[44px] md:min-h-0 flex items-center">
                   Invest in Students
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="#" className="text-sm md:text-base text-gray-400 hover:text-white transition-colors block py-1 min-h-[44px] md:min-h-0 flex items-center">
                   Partner with Salons
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="#" className="text-sm md:text-base text-gray-400 hover:text-white transition-colors block py-1 min-h-[44px] md:min-h-0 flex items-center">
                   ROI Reports
                 </Link>
               </li>
@@ -140,11 +177,11 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-400 text-sm mb-4 md:mb-0">
+        <div className="border-t border-gray-800 mt-4 md:mt-6 lg:mt-8 pt-4 md:pt-6 lg:pt-8 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-gray-400 text-xs md:text-sm mb-3 md:mb-0">
             © 2025 The Hair and Beauty Hub. All rights reserved.
           </p>
-          <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm justify-center md:justify-end">
+          <div className="flex flex-wrap gap-x-4 md:gap-x-6 gap-y-1 md:gap-y-2 text-xs md:text-sm justify-center md:justify-end">
             <Link href="/privacy" className="text-gray-400 hover:text-white transition-colors whitespace-nowrap">
               Privacy Policy
             </Link>
