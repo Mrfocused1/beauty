@@ -14,10 +14,10 @@ export function Header() {
         {/* Logo/Brand */}
         <Link href="/" className="flex items-center gap-2 group">
           <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-primary-400 to-primary-600 rounded-lg flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
-            <span className="text-white font-bold text-sm sm:text-base">L</span>
+            <span className="text-white font-bold text-sm sm:text-base">H</span>
           </div>
-          <span className="font-bold text-lg sm:text-xl text-gray-900 hidden xs:inline">
-            Larabeaut
+          <span className="font-bold text-base sm:text-lg text-gray-900 hidden sm:inline">
+            The Hair & Beauty Hub
           </span>
         </Link>
 

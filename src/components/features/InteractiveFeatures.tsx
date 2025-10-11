@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { GraduationCap, Users, TrendingUp } from "lucide-react";
+import { GraduationCap, Briefcase, Lightbulb, Users } from "lucide-react";
 import Link from "next/link";
 
 interface UserType {
@@ -21,47 +21,62 @@ const userTypes: UserType[] = [
   {
     id: 1,
     icon: GraduationCap,
-    title: "I'm a Student",
-    subtitle: "Build Your Portfolio",
-    description: "Get real-world experience, build your portfolio, and earn money while learning from actual clients.",
+    title: "Learn",
+    subtitle: "Academy",
+    description: "From classroom to career — structured, accredited, and empowering. Accredited qualifications that prepare you for employment or entrepreneurship.",
     benefits: [
-      "Gain practical experience with real clients",
-      "Build a professional portfolio",
-      "Earn money while you learn",
-      "Receive verified reviews and ratings"
+      "Accredited courses and masterclasses",
+      "Expert mentorship and guidance",
+      "Hands-on practical training",
+      "Downloadable toolkits and resources"
     ],
-    ctaText: "Start as Student",
+    ctaText: "Explore Courses",
     ctaLink: "/onboarding/student"
   },
   {
     id: 2,
-    icon: Users,
-    title: "I'm a Client",
-    subtitle: "Quality at Student Prices",
-    description: "Get professional beauty treatments for 50-70% less while helping students build their careers.",
+    icon: Briefcase,
+    title: "Work",
+    subtitle: "Experience",
+    description: "Gain clients, confidence, and income before graduation. Build your portfolio with real clients and verified reviews.",
     benefits: [
-      "Save 50-70% on professional treatments",
-      "Support aspiring beauty professionals",
-      "Access verified, rated students",
-      "Flexible booking options"
+      "Dynamic student portfolios",
+      "Integrated booking system",
+      "Secure payment processing",
+      "Salon and brand partnerships"
     ],
-    ctaText: "Find Treatments",
-    ctaLink: "/onboarding/client"
+    ctaText: "Build Your Portfolio",
+    ctaLink: "/onboarding/student"
   },
   {
     id: 3,
-    icon: TrendingUp,
-    title: "I'm an Investor",
-    subtitle: "Invest in Students",
-    description: "Support talented beauty students through chair rentals, salon partnerships, and recruitment opportunities.",
+    icon: Lightbulb,
+    title: "Innovate",
+    subtitle: "Entrepreneurship",
+    description: "Turn your skills into a sustainable business. Get mentorship, funding support, and business tools to launch your venture.",
     benefits: [
-      "Fund student chair rental agreements",
-      "Partner with students opening salons",
-      "Recruit top graduates for your business",
-      "Finance equipment for student startups"
+      "Business planning and branding resources",
+      "Access to grants and sponsorships",
+      "Pitch days and business bootcamps",
+      "Alumni success network"
     ],
-    ctaText: "Explore Opportunities",
-    ctaLink: "/onboarding/investor"
+    ctaText: "Start Your Business",
+    ctaLink: "/onboarding/student"
+  },
+  {
+    id: 4,
+    icon: Users,
+    title: "Engage",
+    subtitle: "Community",
+    description: "A network that inspires, connects, and grows together. Join forums, become an ambassador, and stay connected with industry trends.",
+    benefits: [
+      "Active community forums",
+      "Ambassador programme opportunities",
+      "Industry trend blog and resources",
+      "Social media integration and events"
+    ],
+    ctaText: "Join the Community",
+    ctaLink: "/onboarding/student"
   }
 ];
 
@@ -133,13 +148,13 @@ export function InteractiveFeatures() {
         {/* Header */}
         <div className="text-center mb-8 sm:mb-12 lg:mb-16 px-4 sm:px-0">
           <span className="text-primary-500 font-semibold text-xs sm:text-sm uppercase tracking-wider">
-            Join Our Platform
+            The Hub Experience
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mt-3 sm:mt-4 mb-4 sm:mb-6">
-            Choose Your Path
+            Four Core Pillars
           </h2>
           <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
-            Whether you're a student, client, or investor, we have something for you
+            Learn, Work, Innovate, and Engage — everything you need to build a successful beauty career
           </p>
         </div>
 
@@ -295,6 +310,8 @@ export function InteractiveFeatures() {
                     ? 'bg-gradient-to-br from-pink-200 via-rose-300 to-primary-400'
                     : currentUserType === 1
                     ? 'bg-gradient-to-br from-blue-200 via-indigo-300 to-purple-400'
+                    : currentUserType === 2
+                    ? 'bg-gradient-to-br from-amber-200 via-orange-300 to-primary-400'
                     : 'bg-gradient-to-br from-green-200 via-emerald-300 to-teal-400'
                 }`} />
 
