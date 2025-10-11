@@ -304,25 +304,44 @@ export function InteractiveFeatures() {
               className="relative max-w-lg mx-auto"
             >
               <div className="w-full h-96 rounded-2xl border border-gray-200 shadow-lg overflow-hidden relative">
-                {/* Beautiful Professional Background Gradients - No external images */}
-                <div className={`absolute inset-0 ${
-                  currentUserType === 0
-                    ? 'bg-gradient-to-br from-pink-200 via-rose-300 to-primary-400'
-                    : currentUserType === 1
-                    ? 'bg-gradient-to-br from-blue-200 via-indigo-300 to-purple-400'
-                    : currentUserType === 2
-                    ? 'bg-gradient-to-br from-amber-200 via-orange-300 to-primary-400'
-                    : 'bg-gradient-to-br from-green-200 via-emerald-300 to-teal-400'
-                }`} />
-
-                {/* Subtle Texture Overlay for Realism */}
-                <div className="absolute inset-0 opacity-20">
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.3)_1px,transparent_1px)] bg-[length:40px_40px]" />
-                  <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,0.1)_25%,transparent_25%,transparent_75%,rgba(255,255,255,0.1)_75%)] bg-[length:20px_20px]" />
+                {/* Pillar-specific placeholder images */}
+                <div className="absolute inset-0">
+                  {currentUserType === 0 && (
+                    // Learn - Education/Training
+                    <img
+                      src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&h=600&fit=crop"
+                      alt="Beauty education and training"
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                  {currentUserType === 1 && (
+                    // Work - Portfolio/Experience
+                    <img
+                      src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&h=600&fit=crop"
+                      alt="Beauty professional at work"
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                  {currentUserType === 2 && (
+                    // Innovate - Entrepreneurship/Business
+                    <img
+                      src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=800&h=600&fit=crop"
+                      alt="Beauty salon business"
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                  {currentUserType === 3 && (
+                    // Engage - Community/Networking
+                    <img
+                      src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&h=600&fit=crop"
+                      alt="Beauty community and networking"
+                      className="w-full h-full object-cover"
+                    />
+                  )}
                 </div>
 
-                {/* Professional Atmosphere Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-white/10" />
+                {/* Gradient overlay for better text readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
 
                 {/* Content */}
                 <div className="relative z-10 h-full flex items-end p-6">
