@@ -1,7 +1,6 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { BackgroundBeamsWithCollision } from '@/components/ui/boxes'
 import { Header } from '@/components/shared/Header'
 import { Footer } from '@/components/shared/Footer'
 import { Container } from '@/components/shared/Container'
@@ -17,11 +16,25 @@ export default function HomePage() {
       <Header />
       <main className="min-h-screen">
         {/* Hero Section */}
-        <BackgroundBeamsWithCollision className="min-h-screen flex items-center relative overflow-hidden pt-20 sm:pt-24 lg:pt-0">
-          <Container className="py-8 sm:py-12 lg:py-16">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+        <section className="min-h-screen flex items-center relative overflow-hidden pt-20 sm:pt-24 lg:pt-0">
+          {/* Background Image */}
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="https://raw.githubusercontent.com/Mrfocused1/beauty/main/hero.jpg"
+              alt="Professional beauty therapist"
+              fill
+              priority
+              className="object-cover object-center"
+              sizes="100vw"
+            />
+            {/* Gradient Overlay for Text Readability */}
+            <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/30 lg:from-white/90 lg:via-white/60 lg:to-transparent"></div>
+          </div>
+
+          <Container className="py-8 sm:py-12 lg:py-16 relative z-10">
+            <div className="max-w-2xl">
               {/* Left Content */}
-              <div className="text-left relative z-10 px-4 sm:px-0">
+              <div className="text-left px-4 sm:px-0">
 
                 <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl mb-4 sm:mb-6 leading-tight">
                   <span className="block">Next-Gen Beauty</span>
@@ -128,23 +141,9 @@ export default function HomePage() {
                   </div>
                 </div>
               </div>
-
-              {/* Right Image */}
-              <div className="relative hidden lg:flex items-center justify-center">
-                <div className="relative w-full h-[500px] xl:h-[600px]">
-                  <Image
-                    src="https://raw.githubusercontent.com/Mrfocused1/beauty/main/hero.jpg"
-                    alt="Professional beauty therapist"
-                    fill
-                    priority
-                    className="object-contain object-center"
-                    sizes="(max-width: 1024px) 0vw, 50vw"
-                  />
-                </div>
-              </div>
             </div>
           </Container>
-        </BackgroundBeamsWithCollision>
+        </section>
 
         {/* Overview & Credibility Section */}
         <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-white to-gray-50">
