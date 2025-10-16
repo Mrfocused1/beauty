@@ -9,10 +9,10 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Larabeaut - Beauty Student Practice Platform',
+  title: 'The Hair and Beauty Hub - Beauty Student Practice Platform',
   description: 'Connecting beauty therapy students with clients for practice and portfolio building. From student to entrepreneur.',
   keywords: ['beauty therapy', 'students', 'practice', 'portfolio', 'entrepreneurs', 'UK'],
-  authors: [{ name: 'Larabeaut Team' }],
+  authors: [{ name: 'The Hair and Beauty Hub Team' }],
   viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
 }
 
