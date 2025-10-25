@@ -64,7 +64,7 @@ export default function HomePage() {
                   >
                     <Link href="/onboarding/student">
                       <span className="flex items-center justify-center gap-2">
-                        Join as a Student
+                        Join a Class
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
@@ -88,7 +88,7 @@ export default function HomePage() {
                       min-h-[52px]
                     "
                   >
-                    <Link href="/onboarding/client">Book a Treatment</Link>
+                    <Link href="/onboarding/client">Book a Service</Link>
                   </Button>
 
                   {/* Tertiary CTA - Investor */}
